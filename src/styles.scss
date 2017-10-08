@@ -1,0 +1,20 @@
+$blue: rgba(15, 151, 219, 0.84);
+$pink: rgba(236, 144, 233, 0.91);
+body{
+  font-family: Arial, Helvetica, sans-serif;
+  user-select: none;
+}
+.blue {
+  background-color: $blue;
+}
+.pink {
+  background-color: $pink;
+}
+
+.split {
+  background-image: linear-gradient( -68deg, $pink 50%, $blue 50%);
+}
+
+.unselectable {
+  user-select: none;
+}
