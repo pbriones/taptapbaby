@@ -20,6 +20,12 @@ body{
 }
 
 img{
+  max-height:60vh;
+  max-width: 60vw;
   height: 60vh;
   width: 60vw;
+  user-select: none;
+}
+div{
+  user-select: none;
 }

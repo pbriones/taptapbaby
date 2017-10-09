@@ -62,7 +62,7 @@ export class AppComponent {
       clearInterval(interval);
       this.background = colors[1];
       this.show = true;
-    }, 3 * 1000);
+    }, 1.5 * 1000);
   }
 
   generateMessage(counter: number): void {
