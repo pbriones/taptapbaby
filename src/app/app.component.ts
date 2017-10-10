@@ -43,7 +43,13 @@ export class AppComponent {
     }
     this.generateMessage(this.counter);
     this.prev = time;
+    event.preventDefault();
   }
+
+  @HostListener('document:gesturestart', ['$event'])
+  globalGestureStart(event): void {
+    console.log(event);
+  }  
 
   toggleColor(): void {
     if (!this.color) {
