@@ -2,7 +2,7 @@ import { Component, HostListener, HostBinding } from '@angular/core';
 
 const colors = ['blue', 'pink'];
 const negative = [
-  'Gotta be faster than that!',
+  'Gotta be faster!',
   'Faster!'
 ]
 const positive = [
@@ -33,7 +33,7 @@ export class AppComponent {
       return;
     }
     const time = event.timeStamp;
-    if (this.prev === 0 || time - this.prev > 170) {
+    if (this.prev === 0 || time - this.prev > 190) {
       this.counter = 0;
     } else {
       this.counter++;
