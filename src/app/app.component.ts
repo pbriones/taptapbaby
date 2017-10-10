@@ -46,11 +46,6 @@ export class AppComponent {
     event.preventDefault();
   }
 
-  @HostListener('document:gesturestart', ['$event'])
-  globalGestureStart(event): void {
-    console.log(event);
-  }  
-
   toggleColor(): void {
     if (!this.color) {
       this.color = colors[0];
@@ -68,7 +63,7 @@ export class AppComponent {
       clearInterval(interval);
       this.background = colors[1];
       this.show = true;
-    }, 1.5 * 1000);
+    }, 2 * 1000);
   }
 
   generateMessage(counter: number): void {
