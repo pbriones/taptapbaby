@@ -1,4 +1,5 @@
 import { Component, HostListener, HostBinding } from '@angular/core';
+import { AudioService } from './audio.service';
 
 const colors = ['blue', 'pink'];
 const negative = [
@@ -12,7 +13,8 @@ const positive = [
 @Component({
   selector: 'body',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers: [AudioService]
 })  
 export class AppComponent {
   show = false;
@@ -22,14 +24,18 @@ export class AppComponent {
   private prev = 0;
   private max = 9;
   private counter = 0;
+  private timer = 2 * 1000;
   private color;
+  constructor(private audioService: AudioService) { }
   @HostListener('document:click', ['$event'])
   globalClick(event: MouseEvent): void {
+    event.preventDefault();
     if (this.counter === 9) return;
     this.toggleColor();
     this.total++;
     if (this.total === 20) { 
       this.flash();
+      setTimeout(() => this.audioService.playFail(), this.timer + 1);
       return;
     }
     const time = event.timeStamp;
@@ -40,10 +46,10 @@ export class AppComponent {
     }
     if (this.counter === 9) {
       this.flash();
+      setTimeout(() => this.audioService.playLaugh(), this.timer + 1);
     }
     this.generateMessage(this.counter);
     this.prev = time;
-    event.preventDefault();
   }
 
   toggleColor(): void {
@@ -63,7 +69,7 @@ export class AppComponent {
       clearInterval(interval);
       this.background = colors[1];
       this.show = true;
-    }, 2 * 1000);
+    }, this.timer);
   }
 
   generateMessage(counter: number): void {
