@@ -17,6 +17,8 @@ const positive = [
   providers: [AudioService]
 })  
 export class AppComponent {
+  failAudio: HTMLAudioElement;
+  laughAudio: HTMLAudioElement;
   show = false;
   wait = false;
   total = 0;
@@ -29,13 +31,15 @@ export class AppComponent {
   constructor(private audioService: AudioService) { }
   @HostListener('document:click', ['$event'])
   globalClick(event: MouseEvent): void {
+    this.failAudio.pause();
+    this.laughAudio.pause();
     event.preventDefault();
     if (this.counter === 9) return;
     this.toggleColor();
     this.total++;
     if (this.total === 20) { 
       this.flash();
-      setTimeout(() => this.audioService.playFail(), this.timer + 1);
+      setTimeout(() => this.failAudio.play(), this.timer + 1);
       return;
     }
     const time = event.timeStamp;
@@ -46,7 +50,7 @@ export class AppComponent {
     }
     if (this.counter === 9) {
       this.flash();
-      setTimeout(() => this.audioService.playLaugh(), this.timer + 1);
+      setTimeout(() => this.laughAudio.play(), this.timer + 1);
     }
     this.generateMessage(this.counter);
     this.prev = time;
@@ -82,4 +86,13 @@ export class AppComponent {
   }
 
   @HostBinding('class') background = 'split';
+  private setupLaugh(): void {
+    this.laughAudio = new Audio();
+    this.laughAudio.src = "assets/laugh.mp3";
+  }
+
+  private setupFail(): void {
+    this.failAudio = new Audio();
+    this.failAudio.src = 'assets/uh.mp3';
+  }
 }
