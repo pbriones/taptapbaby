@@ -29,6 +29,10 @@ export class AppComponent {
   private timer = 2 * 1000;
   private color;
   constructor(private audioService: AudioService) { }
+  ngOnInit() {
+    this.setupFail();
+    this.setupLaugh();
+  }
   @HostListener('document:click', ['$event'])
   globalClick(event: MouseEvent): void {
     this.failAudio.pause();
