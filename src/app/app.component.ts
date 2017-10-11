@@ -1,5 +1,4 @@
 import { Component, HostListener, HostBinding } from '@angular/core';
-import { AudioService } from './audio.service';
 
 const colors = ['blue', 'pink'];
 const negative = [
@@ -13,8 +12,7 @@ const positive = [
 @Component({
   selector: 'body',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  providers: [AudioService]
+  styleUrls: ['./app.component.scss']
 })  
 export class AppComponent {
   failAudio: HTMLAudioElement;
@@ -28,22 +26,26 @@ export class AppComponent {
   private counter = 0;
   private timer = 2 * 1000;
   private color;
-  constructor(private audioService: AudioService) { }
+  constructor() { }
   ngOnInit() {
     this.setupFail();
     this.setupLaugh();
   }
   @HostListener('document:click', ['$event'])
   globalClick(event: MouseEvent): void {
-    this.failAudio.pause();
-    this.laughAudio.pause();
     event.preventDefault();
     if (this.counter === 9) return;
     this.toggleColor();
     this.total++;
     if (this.total === 20) { 
+      this.failAudio.volume = 0;
+      this.failAudio.play();
+      this.failAudio.load();
       this.flash();
-      setTimeout(() => this.failAudio.play(), this.timer + 1);
+      setTimeout(() => {
+        this.failAudio.volume = 1;
+        this.failAudio.play();
+      }, this.timer + 1);
       return;
     }
     const time = event.timeStamp;
@@ -54,7 +56,13 @@ export class AppComponent {
     }
     if (this.counter === 9) {
       this.flash();
-      setTimeout(() => this.laughAudio.play(), this.timer + 1);
+      this.laughAudio.volume = 0;
+      this.laughAudio.play();
+      this.failAudio.load();
+      setTimeout(() => {
+        this.laughAudio.volume = 1;
+        this.laughAudio.play();
+      }, this.timer + 1);
     }
     this.generateMessage(this.counter);
     this.prev = time;
